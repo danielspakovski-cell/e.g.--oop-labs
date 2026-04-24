@@ -1,0 +1,85 @@
+import json
+from abc import ABC, abstractmethod
+from datetime import datetime
+
+class Birthday:
+    def __init__(self, name, date_str):
+        self.name = name
+        self.__date = datetime.strptime(date_str, "%Y-%m-%d") 
+
+    @property
+    def date(self):
+        return self.__date
+
+    def __str__(self):
+        return f"{self.name} ({self.__date.strftime('%Y-%m-%d')})"
+
+class NotificationService(ABC):
+    @abstractmethod
+    def send(self, message):
+        pass
+
+class EmailNotification(NotificationService):
+    def send(self, message):
+        print(f"[Email Siuntimas]: {message}")
+
+class SMSNotification(NotificationService):
+    def send(self, message):
+        print(f"[SMS Siuntimas]: {message}")
+
+class User:
+    def __init__(self, username):
+        self.username = username
+        self.birthdays = [] 
+
+    def add_birthday(self, birthday):
+        self.birthdays.append(birthday)
+        print(f"Pridėta: {birthday.name} vartotojui {self.username}")
+
+    def remove_birthday(self, name):
+        self.birthdays = [b for b in self.birthdays if b.name != name]
+
+    def check_today(self, notifier: NotificationService):
+        today = datetime.now().strftime("%m-%d")
+        for b in self.birthdays:
+            if b.date.strftime("%m-%d") == today:
+                notifier.send(f"Šiandien yra {b.name} gimtadienis!")
+
+
+class BirthdayManager:
+    def __init__(self):
+        self.users = {}
+
+    def create_user(self, username):
+        if username not in self.users:
+            self.users[username] = User(username)
+
+    def save_to_file(self, filename):
+        data = {
+            u: [{"name": b.name, "date": b.date.strftime("%Y-%m-%d")} for b in obj.birthdays]
+            for u, obj in self.users.items()
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        print("Duomenys išsaugoti.")
+
+if __name__ == "__main__":
+    manager = BirthdayManager()
+
+    manager.create_user("Jonas")
+    manager.create_user("Asta")
+
+    b1 = Birthday("Petras", "1990-04-27") 
+    b2 = Birthday("Marta", "1985-12-10")
+    
+    manager.users["Jonas"].add_birthday(b1)
+    manager.users["Asta"].add_birthday(b2)
+
+    email_service = EmailNotification()
+    sms_service = SMSNotification()
+
+    print("\n--- Tikrinami gimtadieniai ---")
+    manager.users["Jonas"].check_today(email_service)
+    manager.users["Asta"].check_today(sms_service)
+
+    manager.save_to_file("birthdays.json")
