@@ -6,7 +6,7 @@ def run_app():
     jonas.add_birthday(Birthday("Petras", "1990-04-26")) 
     
     marija = User("Marija")
-    marija.add_birthday(Birthday("Ana", "1995-04-24"))  
+    marija.add_birthday(Birthday("Ana", "1995-04-27"))  
 
     email_factory = EmailFactory()
     sms_factory = SMSFactory()
