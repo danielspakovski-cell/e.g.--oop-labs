@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 
 class Birthday:
@@ -17,6 +16,15 @@ class User:
 
     def add_birthday(self, birthday):
         self.birthdays.append(birthday)
+    
+    def remove_birthday(self, name):
+        original_count = len(self.birthdays)
+        self.birthdays = [b for b in self.birthdays if b.name != name]
+        
+        if len(self.birthdays) < original_count:
+            print(f"[Sistema]: {name} sėkmingai pašalintas iš {self.username} sąrašo.")
+        else:
+            print(f"[Klaida]: Asmuo vardu {name} nerastas.")    
 
     def save_birthdays_to_txt(self):
         filename = f"{self.username}_birthdays.txt"

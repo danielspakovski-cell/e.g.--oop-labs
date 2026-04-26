@@ -3,7 +3,7 @@ from services import EmailFactory, SMSFactory
 
 def run_app():
     jonas = User("Jonas")
-    jonas.add_birthday(Birthday("Petras", "1990-04-24")) 
+    jonas.add_birthday(Birthday("Petras", "1990-04-26")) 
     
     marija = User("Marija")
     marija.add_birthday(Birthday("Ana", "1995-04-24"))  
