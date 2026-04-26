@@ -1,4 +1,4 @@
-Birthday reminder
+
 Įžanga:
 Mano kursinio darbo kodas tai Python programa, skirta gimtadienių sekimui ir priminimų siuntimui. Joje naudojami objektinio programavimo (OOP) principai, kurie leidžia padaryti taip, kad sistema būtų lanksti ir lengvai plečiama.
 Mano programa leidžia sukurti vartotojus, pridėti prie jų draugų ar artimųjų gimtadienius ir automatiškai Išsaugoti informaciją į txt failą, siųnčia pranešimus, jei šiandien yra kieno nors gimtadienis. Taip pat pranešimus galima siūsti į skirtingus kanalus (el.paštu arba SMS žinute), naudojant Factory Method projektavimo šabloną, kuris yra naudojamas NotificationFactory, EmailFactory ir SMSFactory klasėse. Šio design patterno naudojimas leidžia lengvai pridėti naujus pranešimų būdus, nekeičiant pagrindinės logikos.
