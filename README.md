@@ -1,20 +1,62 @@
+<p align="center">
+  <h1 align="center"><b>BIRTHDAY REMINDER</b></h1>
+</p>
 
-Įžanga:
-Mano kursinio darbo kodas tai Python programa, skirta gimtadienių sekimui ir priminimų siuntimui. Joje naudojami objektinio programavimo (OOP) principai, kurie leidžia padaryti taip, kad sistema būtų lanksti ir lengvai plečiama.
-Mano programa leidžia sukurti vartotojus, pridėti prie jų draugų ar artimųjų gimtadienius ir automatiškai Išsaugoti informaciją į txt failą, siųnčia pranešimus, jei šiandien yra kieno nors gimtadienis. Taip pat pranešimus galima siūsti į skirtingus kanalus (el.paštu arba SMS žinute), naudojant Factory Method projektavimo šabloną, kuris yra naudojamas NotificationFactory, EmailFactory ir SMSFactory klasėse. Šio design patterno naudojimas leidžia lengvai pridėti naujus pranešimų būdus, nekeičiant pagrindinės logikos.
-Norint panaudoti kodą savo poreikiams, reikėtų keisti run_app() funkciją. Iškart, reikėtų sukurti vartotoją pagal šabloną: asmuo = User("Asmuo"), tada pridėti gimtadienius panaudojant add_birthday(Birthday("Vardas", "YYYY-MM-DD")). Toliau reikėtų pasirinkti pranešimo būdą: EmailFactory(), pranešimams el.paštu ir SMSFactory(), pranešimams per SMS.
-Paleisti kodą galima tiesiog ji paleidus terminale, txt failai susikurs patys, o komandinei eilutei matysis pranešimai, jeigu šiandienos data sutampa su vienu iš asmenų gimtadienio data.
-Analizė:
-Birthday reminder programa yra suskirstyta į 3 failus: „services.py”, kuri atsako už pranešimų logiką, „models.py“ kur aprašyti gimtadieniai ir vartotojai ir „main.py“, kuris atsako už valdymą ir visų funkcijų apjungimą. Taip pat programoje yra dar „test_notification_system.py“ failas, kuris atsako už kodo testavimą, bet nėra programos funkcjonalumo dalimi. Taip pat kode buvo panaudoti keli disaino principai, tokie kaip Enkapsulacija, kuri leidžia paslėpti gimtadienio duomenys ir elgseną, Abstrakcija, kuri pasiro NotificationService klasėje, kuriai nesvarbu, kaip techniškai siunčiamos žinutės, ji tiesiog kviečia .send() ir Factory, kuri yra atskleista per EmailFactory ir SMSFactory klases, kurios leidžia kurti pranešimų siuntėjus nekeičiant pagrindinės logikos.
-Reikalavimų įgyvendinimas:
-Birthday klasė, saugo vardą ir datą. Tekstinė data (date_str) yra iškart konvertuojama į datetime objektą, kas leidzia suprasti laiką, o ne tik traktuoti jį kaip tekstą.
-User klasė, leidžia kiekvienam vartotojui turėti savo gimtadienių sąrašą, aprašytą self.birthdays = []. Metodas add_birthday leidžia pildyti ši sąrašą, o remove_birthday leidžia trinti sąrašą.
-Reikalavimas išsaugoti sąrašus į failą buvo įgyvendintas User klasės metode save_birthdays_to_txt, kuris sukuria unikalų failą kiekvienam vartotojui, o ciklas for b in self.birthdays surašo vardus ir datas į pagražintą tekstinį failą.
-Priminimų siuntimas yra įgyvendinamas per Factory design patterno šabloną ir metodus, kurie patikriną šiandienos datą, siunčia e.mail arba SMS pranešimus pagal vartotojo pageidavimą. Šiandienos data programa supranta notify_birthdays metodo deka, kuris patikrina šiandienos datą ir tikrina ar ji sutampa su sąraše esančiomis datomis. Pranešimų siuntimas įgyvendinamas per NotificationService abstrakčią klasę, kuri nurodo, kad kiekviena susijusi su pranešimų siuntimu susijusi funkcija, turi turėti send(message) metodą.Tada sukuriamos EmailNotification ir SMSFactory tarnybos. Šiame etape programa jau turi įrankius, bet ji dar nežino, kurį pasirinkti. Toliau yra įgyvendami factory metodai, kurie sukuria el.pašto siuntėją ir SMS siuntėją ir galiausiai „main.py“ faile, per notify_birthdays metodą įvyksta pranešimų tikrinimas ir siuntimo procesas.
-“main.py” faile yra sukurtas objektas jonas ir objektas marija. Kadangi kiekviena User klasės instancija turi savo atmintį ir savo failą, sistema gali aptarnauti neribotą kiekį vartotojų be duomenų susimaišymo, kas įgyvendina kelių vartotojų palaikymo reikalavimą.
-Rezultatai ir apbibendrinimas:
-Ši programa sėkmingai sukuria pamatus lanksčiai ir plečiamai gimtadienių priminimų sistemai. Sukurtas kodas veikia sklandžiai ir atitinka reikalavimus. Jis sėkmingai išsprendė kelias svarbias problemas, tokias kaip: duomenų atskyrimas, daugiaplatformiškumas, duomenų išsaugojimas ir automatizacija. Kas leidžia lengvai papildyti kodą ateity, legvai juo naudotis ir nebijoti galimų problemų padarius kažką netaip.
-Vykdant šį kodą, gauname du apčiuopiamus rezultatus: fizinius failus ir vartotojo sąsajos pranešimus. Paleidžiant programą kompiuterio atmintyje atsiranda tekstiniai dokumentai su gimtadienių informacija, juose duomenys saugomi tvarkingai suformatuotu pavidalu.  Taip pat išvedama informacija apie duomenų išsaugojimą ir simuliuojamas pranešimų siuntimas.
-Ateityje šiame kode galima būtų sukurti gražų interface‘a, tam kad vartotojam būtų legviau ir maloniau naudotis programa. Taip pat galima būtų pridėti Web sąsają, taigi paversti programą internetiniu puslapiu. Dabar pranešimai spausdinami ekrane, bet ateityje prijungus reikalingas bibliotekas pranešimai siustusi iš tikrųjų. Negalima užmiršti ir apie duomenų bazių integravimą. Jeigu ši programa turėtų apdoroti didelį kiekį vartotojų, paprasti txt failai būtų neefektyvūs. Taip pat programa galima patalpinti į serveri, kad jinai veiktų automatiškai. Galiausiai galima pridėti keletą naujų funkcijų, tokių kaip: amžiaus skaičiavimas ir priminimą iš anksto.
-Apibendrinant, šis kodas, tai geras skeletas didesnei ir spartesnei programai, kuri yra objektinio programavimo pavyzdys.
+---
+
+## 📋 Įžanga
+Mano kursinio darbo kodas tai **Python** programa, skirta gimtadienių sekimui ir priminimų siuntimui. Joje naudojami objektinio programavimo (**OOP**) principai, kurie leidžia padaryti taip, kad sistema būtų lanksti ir lengvai plečiama.
+
+Mano programa leidžia sukurti vartotojus, pridėti prie jų draugų ar artimųjų gimtadienius ir automatiškai išsaugoti informaciją į `.txt` failą. Programa siunčia pranešimus, jei šiandien yra kieno nors gimtadienis. Pranešimus galima siųsti į skirtingus kanalus (el. paštu arba SMS žinute), naudojant **Factory Method** projektavimo šabloną, kuris įgyvendintas `NotificationFactory`, `EmailFactory` ir `SMSFactory` klasėse. Šio šablono naudojimas leidžia lengvai pridėti naujus pranešimų būdus, nekeičiant pagrindinės logikos.
+
+### 🛠️ Kaip naudoti
+Norint panaudoti kodą savo poreikiams, reikėtų keisti `run_app()` funkciją:
+1. Sukurti vartotoją: `asmuo = User("Asmuo")`
+2. Pridėti gimtadienius: `asmuo.add_birthday(Birthday("Vardas", "YYYY-MM-DD"))`
+3. Pasirinkti pranešimo būdą: `EmailFactory()` arba `SMSFactory()`.
+
+Paleidus kodą terminale, `.txt` failai susikurs automatiškai, o komandinėje eilutėje matysis pranešimai, jei šiandienos data sutampa su gimtadienio data.
+
+---
+
+## 🔍 **Analizė**
+Programa yra suskirstyta į 3 pagrindinius failus:
+* `services.py` – atsako už pranešimų logiką.
+* `models.py` – aprašyti gimtadieniai ir vartotojai.
+* `main.py` – atsako už valdymą ir visų funkcijų apjungimą.
+* *Pastaba: `test_notification_system.py` skirtas kodo testavimui.*
+
+**Panaudoti principai:**
+* **Enkapsulacija:** paslepia gimtadienio duomenis ir elgseną.
+* **Abstrakcija:** `NotificationService` klasei nesvarbu techninis siuntimo būdas, ji tik kviečia `.send()`.
+* **Factory:** įgyvendintas per specializuotas kalses lengvam plečiamumui.
+
+---
+
+## ⚙️ **Reikalavimų įgyvendinimas**
+
+
+
+* **Birthday klasė:** Saugo vardą ir datą. Tekstinė data konvertuojama į `datetime` objektą tiksliems skaičiavimams.
+* **User klasė:** Kiekvienas vartotojas turi savo sąrašą (`self.birthdays = []`). Metodai `add_birthday` ir `remove_birthday` valdo šį sąrašą.
+* **Duomenų saugojimas:** Metodas `save_birthdays_to_txt` sukuria unikalų failą kiekvienam vartotojui ir surašo duomenis tvarkingu formatu.
+* **Priminimų logika:** Metodas `notify_birthdays` palygina šiandienos datą su sąraše esančiomis datomis. Naudojama `NotificationService` abstrakcija, leidžianti sistemai lanksčiai pasirinkti tarp `EmailNotification` ir `SMSFactory` tarnybų.
+* **Multi-vartotojų palaikymas:** `main.py` faile sukurti atskiri objektai (pvz., Jonas ir Marija) veikia nepriklausomai, nes kiekviena instancija turi savo atmintį ir failus.
+
+---
+
+## 🚀 **Rezultatai ir apibendrinimas**
+Ši programa sėkmingai sukuria pamatus lanksčiai ir plečiamai gimtadienių priminimų sistemai. Kodas sėkmingai išsprendė duomenų atskyrimo, duomenų išsaugojimo ir automatizacijos problemas.
+
+**Pasiekti rezultatai:**
+1.  **Fiziniai failai:** Sukuriami tekstiniai dokumentai su suformatuota informacija.
+2.  **Vartotojo sąsaja:** Terminale simuliuojamas pranešimų siuntimas ir informavimas apie išsaugojimą.
+
+### 💡 Ateities perspektyvos
+* Sukurti grafinę vartotojo sąsają (GUI) arba Web versiją.
+* Integruoti realias el. pašto ir SMS siuntimo bibliotekas.
+* Pakeisti `.txt` failus į duomenų bazes (SQL) didesniam efektyvumui.
+* Pridėti amžiaus skaičiavimą bei priminimus likus kelioms dienoms iki šventės.
+
+**Apibendrinant**, šis kodas yra tvirtas skeletas, demonstruojantis teisingą objektinio programavimo taikymą praktikoje.
 
